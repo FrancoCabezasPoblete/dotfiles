@@ -7,6 +7,8 @@ CONFIG_DIR="${XDG_CONFIG_HOME:-"$HOME/.config"}"
 
 link_zsh_into_home() {
 	local zsh_dir="$1"
+	# Normalize: remove any trailing slash to avoid paths like zsh//.zshrc
+	zsh_dir="${zsh_dir%/}"
 
 	echo "Linking zsh files from $zsh_dir to $HOME"
 
