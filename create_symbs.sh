@@ -10,11 +10,15 @@ link_zsh_into_home() {
 
 	echo "Linking zsh files from $zsh_dir to $HOME"
 
-	for item in "$zsh_dir"/*; do
+	# Include dotfiles like .zshrc, .zprofile, etc.
+	for item in "$zsh_dir"/.* "$zsh_dir"/*; do
+		# Skip if glob didn't match or it's . or ..
 		[ -e "$item" ] || continue
-
-		local name target
 		name="$(basename "$item")"
+		[ "$name" = "." ] && continue
+		[ "$name" = ".." ] && continue
+
+		local target
 		target="$HOME/$name"
 
 		if [ -e "$target" ] && [ ! -L "$target" ]; then
